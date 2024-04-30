@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="custom.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="ingredientsColumn">
+            <h2 class="bold">Ingredients</h2>
+            <input type="text" id="ingredientInput" class="form-control mb-2" placeholder="Add ingredient">
+            <button id="addIngredientBtn" class="custom-btn btn-16">Add Ingredient</button>
+            <ul id="ingredientList" class="ingredient-list list-group list-group-flush"></ul>
+            <button id="fetchRecipesBtn" class ="custom-btn btn-16">Get Recipes</button>
+        </div>
+        <div id="recipesColumn">
+            <h2>Recipes</h2>
+            <div id="recipesList">
+                <!-- Recipes will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { GoogleGenerativeAI } from "https://cdn.skypack.dev/@google/generative-ai";
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_KEY = "AIzaSyAueuN7BC6HIJIeU-utNxadzcE0Pa7L_P8"; // Securely store and replace with your actual API key
+            const genAI = new GoogleGenerativeAI(API_KEY);
+            const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+    
+            const ingredientInput = document.getElementById('ingredientInput');
+            const ingredientList = document.getElementById('ingredientList');
+            const recipesList = document.getElementById('recipesList');
+    
+            function addIngredient() {
+                if (ingredientInput.value.trim() === '') {
+                    alert('Please enter an ingredient.');
+                    return;
+                }
+                const newItem = document.createElement('li');
+                newItem.textContent = ingredientInput.value.trim();
+                newItem.classList.add('ingredient-item');
+                ingredientList.appendChild(newItem);
+                ingredientInput.value = ''; // Clear the input field
+            }
+    
+            async function fetchRecipes() {
+                recipesList.innerText = 'Fetching recipes...'; // Show loading message
+    
+                const ingredients = Array.from(ingredientList.querySelectorAll('.ingredient-item'))
+                                        .map(item => item.textContent)
+                                        .join(', ');
+    
+                if (!ingredients) {
+                    alert('Please add at least one ingredient.');
+                    return;
+                }
+    
+                try {
+                    const prompt = `Find a recipe using these ingredients: ${ingredients}`;
+                    const result = await model.generateContent(prompt);
+                    const response = await result.response;
+                    const recipes = await response.text();
+    
+                    recipesList.innerText = recipes; // Display recipes
+                } catch (error) {
+                    console.error('Error fetching recipes:', error);
+                    recipesList.innerText = 'An error occurred while fetching recipes. Please try again.';
+                }
+            }
+    
+            // Attach event listeners to buttons
+            const addIngredientButton = document.getElementById('addIngredientBtn');
+            const fetchRecipesButton = document.getElementById('fetchRecipesBtn');
+    
+            addIngredientButton.addEventListener('click', addIngredient);
+            fetchRecipesButton.addEventListener('click', fetchRecipes);
+        });
+        
+    </script>
+</body>
+</html>

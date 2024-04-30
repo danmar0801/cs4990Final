@@ -1,0 +1,96 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    
+}
+.container {
+    display: flex;
+    height: 100%;
+    margin: 0;
+}
+#ingredientsColumn {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    flex-direction: column;
+    justify-self: start;
+    flex: 1;
+    padding: 20px;
+    border-right: 2px solid #ababab;
+    width: 25%
+}
+#recipesColumn {
+    flex: 2;
+    padding: 20px;
+}
+.ingredient-list {
+    list-style: none;
+    padding: 0;
+}
+.ingredient-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+.custom-btn {
+    width: 230px;
+    height: 40px;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+     box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+}
+
+/* 16 */
+.btn-16 {
+    border: none;
+    color: #000000;
+}
+.btn-16:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    left: 0;
+    direction: rtl;
+    z-index: -1;
+    box-shadow:
+     -7px -7px 20px 0px #fff9,
+     -4px -4px 5px 0px #fff9,
+     7px 7px 20px 0px #0002,
+     4px 4px 5px 0px #0001;
+    transition: all 0.3s ease;
+}
+.btn-16:hover {
+    color: #000000;
+}
+.btn-16:hover:after {
+    left: auto;
+    right: 0;
+    width: 100%;
+}
+.btn-16:active {
+    top: 2px;
+}
+
